@@ -3,11 +3,12 @@ package com.CodeSquad.IssueTracker.user;
 import com.CodeSquad.IssueTracker.user.dto.LoginRequest;
 import com.CodeSquad.IssueTracker.user.dto.UserRegisterRequest;
 import com.CodeSquad.IssueTracker.user.jwtlogin.JwtUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -38,6 +39,12 @@ public class UserController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<String>> getUserListForIssued() {
+        List<String> userIdList = userService.getAllUserIds();
+        return ResponseEntity.ok(userIdList);
     }
 
 //    세션 로그인 방식
