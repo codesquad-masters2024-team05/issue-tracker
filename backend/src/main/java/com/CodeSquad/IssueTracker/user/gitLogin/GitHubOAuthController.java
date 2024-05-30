@@ -35,7 +35,7 @@ public class GitHubOAuthController {
         User user = gitHubOauthService.saveOrGetGithubUser(gitHubUserId, accessToken);
         String jwtToken = gitHubOauthService.generateJwtToken(user);
 
-        String frontendUrl = "https://localhost:3000/callback?token=" + jwtToken;
+        String frontendUrl = "https://d1h2zmtghg8ybi.cloudfront.net/callback?token=" + jwtToken;
         response.setHeader("Location", frontendUrl);
 
         return ResponseEntity.status(HttpStatus.FOUND).build();
