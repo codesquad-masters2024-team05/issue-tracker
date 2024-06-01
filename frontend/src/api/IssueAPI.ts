@@ -22,17 +22,6 @@ interface TitleEditProps {
   title: string;
 }
 
-interface CommentRequestProps {
-  issueId: number;
-  author: string;
-  content: string;
-}
-
-interface TitleEditProps {
-  issueId: number;
-  title: string;
-}
-
 const ISSUE_ERROR_MESSAGE: { [key: number]: string } = {
   400: "데이터 형식에 오류가 생겼습니다.",
   404: "존재하지 않는 이슈에 접근하였습니다.",
@@ -46,7 +35,7 @@ export const sendIssuesRequest = async ({ issueType, page }: IssuesRequestProps)
     const response = await fetch(`${SERVER}/issues/${issueType}?page=${page}`, { credentials: "include" });
 
     if (response.status === 400) throw new Error(PAGE_FORMAT_ERROR_MESSAGE);
-    if (!response.ok) throw new Error(SERVER_ERROR_MESSAGE); 
+    if (!response.ok) throw new Error(SERVER_ERROR_MESSAGE);
 
     return response.json();
   } catch (error) {
