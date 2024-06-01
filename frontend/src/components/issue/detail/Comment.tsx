@@ -1,21 +1,52 @@
 import styled from "styled-components";
-import userIcon from "../../img/icon/userIcon.png";
-import editIcon from "../../img/icon/editIcon.svg";
-import smileIcon from "../../img/icon/smileIcon.svg";
+import userIcon from "../../../img/icon/userIcon.png";
+import editIcon from "../../../img/icon/editIcon.svg";
+import smileIcon from "../../../img/icon/smileIcon.svg";
+import dateUtils from "../../../utils/DateUtils";
 
-function Comment() {
+export interface CommentProps {
+  commentId: number;
+  author: string;
+  isAuthor: boolean;
+  content: string;
+  publishedAt: string;
+}
+
+const IMAGE_REGEX = /<img src="(.*?)" \/>/g;
+
+const parseContent = (content: string) =>
+  content.split("\n").map((line) => {
+    const images = Array.from(line.matchAll(IMAGE_REGEX));
+    let textWithoutImages = line.replace(IMAGE_REGEX, "");
+
+    return (
+      <span>
+        {textWithoutImages}
+        {images.map((imgMatch) => (
+          <ContentImage src={imgMatch[1]} />
+        ))}
+        <br />
+      </span>
+    );
+  });
+
+function Comment({ commentId, author: commentor, isAuthor, content, publishedAt }: CommentProps) {
+  const contentTexts = parseContent(content);
+
   return (
     <CommentTable>
       <InfoTab>
         <UserInfo>
           <img src={userIcon} />
-          <UserName>schnee</UserName>
-          <PublishedAt>3분 전</PublishedAt>
+          <UserName>{commentor}</UserName>
+          <PublishedAt>{dateUtils.parseTimeDifference(publishedAt)}</PublishedAt>
         </UserInfo>
         <ToggleWrapper>
-          <AuthorTag>
-            <span>작성자</span>
-          </AuthorTag>
+          {isAuthor && (
+            <AuthorTag>
+              <span>작성자</span>
+            </AuthorTag>
+          )}
           <ToggleButton>
             <img src={editIcon} />
             <span>편집</span>
@@ -26,7 +57,7 @@ function Comment() {
           </ToggleButton>
         </ToggleWrapper>
       </InfoTab>
-      <Content>이번 그룹 프로젝트에서 디자인 특징은 아래와 같습니다.</Content>
+      <Content>{contentTexts}</Content>
     </CommentTable>
   );
 }
@@ -99,6 +130,11 @@ const Content = styled.div`
   min-height: 4em;
   border-top: 1px solid #d9dbe9;
   background-color: #fff;
+`;
+
+const ContentImage = styled.img`
+  width: fit-content;
+  max-height: 16em;
 `;
 
 export default Comment;

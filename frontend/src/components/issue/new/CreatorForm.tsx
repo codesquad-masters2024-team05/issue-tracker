@@ -12,7 +12,7 @@ const CreatorForm = React.forwardRef<HTMLTextAreaElement, CreatorFormProps>((pro
   
   return (
     <Wrapper isFocused={false} height={height}>
-      <FormParagraph height={height}>
+      <FormParagraph>
         <FormInput ref={ref} onChange={onChange} required />
         <FormInputLabel>
           <span>{labelText}</span>
@@ -30,7 +30,7 @@ const Wrapper = styled.div<{ isFocused: boolean; height: string }>`
   padding: 0 1em;
   flex-direction: column;
   border: 1px solid #eceef5;
-  border-radius: 16px;
+  border-radius: 1em;
   background-color: #eceef5;
   transition: all 0.5s ease;
 
@@ -42,19 +42,19 @@ const Wrapper = styled.div<{ isFocused: boolean; height: string }>`
     `}
 `;
 
-const FormParagraph = styled.p<{ height: string }>`
+const FormParagraph = styled.p`
   position: relative;
   top: 0;
   width: 100%;
-  ${({ height }) => `height: ${height};`}
+  height: 100%;
   margin: 0;
 `;
 
 const FormInput = styled.textarea`
   position: relative;
-  top: 24px;
+  top: 1.5em;
   width: 100%;
-  height: 80%;
+  height: 100%;
   padding: 0;
   border: 0 none;
   background-color: transparent;
@@ -65,7 +65,7 @@ const FormInput = styled.textarea`
   &:focus + label span,
   &:valid + label span {
     transform: translateY(-3px);
-    font-size: 12px;
+    font-size: 0.75em;
     color: #595f63;
   }
 

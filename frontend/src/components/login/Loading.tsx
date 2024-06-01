@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import loading from "../../img/indicator/loading.gif";
 
 function Loading() {
@@ -6,7 +6,7 @@ function Loading() {
     <BlurBackground>
       <LoadingImage src={loading} />
     </BlurBackground>
-  )
+  );
 }
 
 const BlurBackground = styled.div`
@@ -16,7 +16,7 @@ const BlurBackground = styled.div`
   width: 100%;
   height: 100%;
   background-color: white;
-  opacity: 0.7;
+  opacity: 0.9;
   z-index: 10;
 `;
 
@@ -26,6 +26,6 @@ const LoadingImage = styled.img`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 11;
-`
+`;
 
 export default Loading;

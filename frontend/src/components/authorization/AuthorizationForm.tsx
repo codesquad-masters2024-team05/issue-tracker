@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 export interface AuthorizationFormProps {
   type: "id" | "password" | "password-validation" | "nickname";
-  onInputChange: (value: string) => void;
+  onChange: () => void;
 }
 
 const MAX_LENGTH = {
@@ -19,27 +19,22 @@ const LABEL_TEXT = {
   nickname: "닉네임",
 };
 
-function AuthorizationForm({ type, onInputChange }: AuthorizationFormProps) {
-  const [inputValue, setInputValue] = useState("");
+const AuthorizationForm = React.forwardRef<HTMLInputElement, AuthorizationFormProps>((props, ref) => {
+  const { type, onChange } = props;
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const inputType = type === "password" || type === "password-validation" ? "password" : "text";
-
-  const handleInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(value);
-    onInputChange(value);
-  };
 
   return (
     <Wrapper isFocused={isFocused}>
       <FormParagraph>
         <FormInput
+          ref={ref}
           type={inputType}
-          value={inputValue}
           maxLength={MAX_LENGTH[type]}
-          onChange={(event) => handleInputChange(event)}
           required
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          onChange={onChange}
         />
         <FormInputLabel>
           <span>{LABEL_TEXT[type]}</span>
@@ -47,7 +42,7 @@ function AuthorizationForm({ type, onInputChange }: AuthorizationFormProps) {
       </FormParagraph>
     </Wrapper>
   );
-}
+});
 
 const Wrapper = styled.div<{ isFocused: boolean }>`
   width: 288px;

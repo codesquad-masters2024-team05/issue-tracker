@@ -2,17 +2,12 @@ import styled from "styled-components";
 import pageLogo from "../../img/icon/pageLogo.svg";
 import AuthorizationForm from "../authorization/AuthorizationForm";
 import { useNavigate } from "react-router-dom";
-import useLoginLogic from "../../hooks/useLoginLogic";
+import useLoginLogic from "../../hooks/logics/useLoginLogic";
 import Loading from "./Loading";
 
 function Login() {
-  const {
-    state: { allFilled, errorMessage },
-    isLoading,
-    setIdValue,
-    setPasswordValue,
-    handleLoginClick,
-  } = useLoginLogic();
+  const { isSubmitable, errorMessage, isLoading, idValueRef, passwordValueRef, handleLoginClick, handleOnChange } =
+    useLoginLogic();
   const navigate = useNavigate();
 
   return (
@@ -20,9 +15,9 @@ function Login() {
       <Logo src={pageLogo} alt="page-logo" onClick={() => navigate("/")} />
       <GithubLoginButton>Github 계정으로 로그인</GithubLoginButton>
       <div>or</div>
-      <AuthorizationForm type="id" onInputChange={setIdValue} />
-      <AuthorizationForm type="password" onInputChange={setPasswordValue} />
-      <LoginButton onClick={handleLoginClick} allFilled={allFilled}>
+      <AuthorizationForm ref={idValueRef} type="id" onChange={handleOnChange} />
+      <AuthorizationForm ref={passwordValueRef} type="password" onChange={handleOnChange} />
+      <LoginButton onClick={handleLoginClick} isSubmitable={isSubmitable}>
         아이디로 로그인
       </LoginButton>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
@@ -58,7 +53,7 @@ const GithubLoginButton = styled.button`
   cursor: pointer;
 `;
 
-const LoginButton = styled.button<{ allFilled: boolean }>`
+const LoginButton = styled.button<{ isSubmitable: boolean }>`
   width: 320px;
   height: 56px;
   border: 1px solid #595959;
@@ -66,8 +61,8 @@ const LoginButton = styled.button<{ allFilled: boolean }>`
   background-color: #595959;
   font-size: 20px;
   color: white;
-  opacity: ${({ allFilled }) => (allFilled ? "1" : "0.32")};
-  cursor: ${({ allFilled }) => (allFilled ? "pointer" : "default")};
+  opacity: ${({ isSubmitable }) => (isSubmitable ? "1" : "0.32")};
+  cursor: ${({ isSubmitable }) => (isSubmitable ? "pointer" : "default")};
   transition: all 0.5s ease-in-out;
 `;
 

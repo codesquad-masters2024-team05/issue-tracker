@@ -5,8 +5,10 @@ import labelIcon from "../../img/icon/labelIcon.svg";
 import milestoneIcon from "../../img/icon/milestoneIcon.svg";
 import plusIcon from "../../img/icon/plusIcon.svg";
 import { useNavigate } from "react-router-dom";
+import useFilterLogic from "../../hooks/logics/useFilterLogic";
 
 function Filter() {
+  const { labels, milestones } = useFilterLogic();
   const navigate = useNavigate();
 
   return (
@@ -26,14 +28,16 @@ function Filter() {
           <FilterBox>
             <LabelBar>
               <SmallIcon src={labelIcon} />
-              <LargeTitle onClick={() => navigate("/labels")}>레이블(0)</LargeTitle>
+              <LargeTitle onClick={() => navigate("/labels")}>레이블({(labels && labels.length) || 0})</LargeTitle>
             </LabelBar>
             <MilestoneBar>
               <SmallIcon src={milestoneIcon} />
-              <LargeTitle onClick={() => navigate("/milestone")}>마일스톤(0)</LargeTitle>
+              <LargeTitle onClick={() => navigate("/milestones")}>
+                마일스톤({(milestones && milestones.length) || 0})
+              </LargeTitle>
             </MilestoneBar>
           </FilterBox>
-          <NewIssueButton onClick={() => navigate("/new-issue")}>
+          <NewIssueButton onClick={() => navigate("/new")}>
             <img src={plusIcon} />
             <span>이슈 작성</span>
           </NewIssueButton>
@@ -133,7 +137,7 @@ const NewIssueButton = styled.button`
   align-items: center;
   gap: 0.5em;
   color: white;
-  background-color: #007aff;
+  background-color: #595959;
   border: 0;
   border-radius: 0.725em;
   cursor: pointer;

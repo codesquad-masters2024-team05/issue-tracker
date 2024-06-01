@@ -1,33 +1,18 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
-import useUserStore from "../hooks/useUserStore";
+import { createBrowserRouter } from "react-router-dom";
 import Login from "../components/login/Login";
 import Registration from "../components/registration/Registration";
 import Main from "../components/Main";
-import IssueCreator from "../components/creator/IssueCreator";
-import IssueDetail from "../components/issue/IssueDetail";
+import IssueCreator from "../components/issue/new/IssueCreator";
+import IssueDetail from "../components/issue/detail/IssueDetail";
 import LabelList from "../components/label/LabelList";
 import MilestoneList from "../components/milestone/MilestoneList";
-
-interface AuthRouteProps {
-  children: React.ReactNode;
-}
-
-export const AuthRoute = ({ children }: AuthRouteProps) => {
-  const { isLoggedIn } = useUserStore();
-
-  if (!isLoggedIn) return <Navigate to="/login" />;
-
-  return <>{children}</>;
-};
+import { LabelProvider } from "../contexts/LabelContext";
+import { MilestoneProvider } from "../contexts/MilestoneContext";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <AuthRoute>
-        <Main />
-      </AuthRoute>
-    ),
+    element: <Main />,
   },
   {
     path: "/login",
@@ -38,19 +23,27 @@ export const router = createBrowserRouter([
     element: <Registration />,
   },
   {
-    path: "/new-issue",
+    path: "/new",
     element: <IssueCreator />,
   },
   {
-    path: "/issue-detail", // get /issues/{issueId} 구현 완료 시 수정
+    path: "/issue/:issueId",
     element: <IssueDetail />,
   },
   {
     path: "/labels",
-    element: <LabelList />,
+    element: (
+      <LabelProvider>
+        <LabelList />
+      </LabelProvider>
+    ),
   },
   {
-    path: "/milestone",
-    element: <MilestoneList />,
+    path: "/milestones",
+    element: (
+      <MilestoneProvider>
+        <MilestoneList />
+      </MilestoneProvider>
+    ),
   },
 ]);

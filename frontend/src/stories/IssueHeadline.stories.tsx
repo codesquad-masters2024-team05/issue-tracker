@@ -1,19 +1,26 @@
 import React from "react";
-import IssueHeadline, { IssueHeadlineProps } from "../components/issue/IssueHeadline";
-import { MemoryRouter } from 'react-router-dom';
+import IssueHeadline from "../components/issue/list/IssueHeadline";
+import { MemoryRouter } from "react-router-dom";
 import { StoryFn } from "@storybook/react";
+import { Headline } from '../hooks/stores/useIssueStore';
 
 export default {
   title: "Issue/IssueHeadline",
   component: IssueHeadline,
-  decorators: [(Story: StoryFn) => <MemoryRouter><Story /></MemoryRouter>]
+  decorators: [
+    (Story: StoryFn) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
 };
 
-interface ReturnType extends React.FC<IssueHeadlineProps> {
-  args?: IssueHeadlineProps;
+interface ReturnType extends React.FC<Headline> {
+  args?: Headline;
 }
 
-const Template: ReturnType = (props: IssueHeadlineProps) => <IssueHeadline {...props} />;
+const Template: ReturnType = (props: Headline) => <IssueHeadline {...props} />;
 
 export const IssueDetail = Template.bind({});
 IssueDetail.args = {
@@ -22,4 +29,13 @@ IssueDetail.args = {
   author: "schnee",
   publishedAt: "2024-05-14T12:34:56Z",
   isClosed: false,
+  labels: [
+    {
+      labelId: 1,
+    },
+    {
+      labelId: 2,
+    },
+  ],
+  milestoneId: 1,
 };
