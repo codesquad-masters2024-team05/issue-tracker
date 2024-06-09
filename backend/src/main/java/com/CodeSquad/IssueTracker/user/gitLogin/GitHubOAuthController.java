@@ -1,6 +1,7 @@
 package com.CodeSquad.IssueTracker.user.gitLogin;
 
 import com.CodeSquad.IssueTracker.user.User;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,16 @@ public class GitHubOAuthController {
     }
 
     @GetMapping("/callback")
-    public ResponseEntity<String> githubCallback(@RequestParam("code") String code) {
+    public ResponseEntity<Void> githubCallback(@RequestParam("code") String code, HttpServletResponse response) {
         String accessToken = gitHubOauthService.getAccessToken(code);
         String gitHubUserId = gitHubOauthService.getUserLogin(accessToken);
 
         User user = gitHubOauthService.saveOrGetGithubUser(gitHubUserId, accessToken);
         String jwtToken = gitHubOauthService.generateJwtToken(user);
 
-        return ResponseEntity.ok(jwtToken);
+        String frontendUrl = "https://d1h2zmtghg8ybi.cloudfront.net/callback?token=" + jwtToken;
+        response.setHeader("Location", frontendUrl);
+
+        return ResponseEntity.status(HttpStatus.FOUND).build();
     }
 }
