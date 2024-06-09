@@ -1,14 +1,9 @@
 package com.CodeSquad.IssueTracker.Exception;
 
+import com.CodeSquad.IssueTracker.Exception.label.*;
 import com.CodeSquad.IssueTracker.Exception.milestone.InvalidMilestoneRequestException;
 import com.CodeSquad.IssueTracker.Exception.milestone.MilestoneNotFoundException;
 import com.CodeSquad.IssueTracker.Exception.user.*;
-import com.CodeSquad.IssueTracker.Exception.label.*;
-import com.CodeSquad.IssueTracker.Exception.issue.AuthorNotFoundException;
-import com.CodeSquad.IssueTracker.Exception.issue.InvalidIssueDataException;
-import com.CodeSquad.IssueTracker.Exception.user.InvalidCredentialException;
-import com.CodeSquad.IssueTracker.Exception.user.InvalidUserFormatException;
-import com.CodeSquad.IssueTracker.Exception.user.UserNotLoginException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

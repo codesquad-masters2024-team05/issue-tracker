@@ -1,7 +1,7 @@
 package com.CodeSquad.IssueTracker.issues;
 
 import com.CodeSquad.IssueTracker.issues.dto.*;
-import com.CodeSquad.IssueTracker.milestone.Milestone;
+import com.CodeSquad.IssueTracker.milestone.dto.MilestoneResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,56 +32,50 @@ public class IssueController {
     }
 
     @PatchMapping("/{issueId}/open")
-    public ResponseEntity<Issue> openIssue(@PathVariable("issueId") long issueId) {
+    public ResponseEntity<Void> openIssue(@PathVariable("issueId") long issueId) {
+        issueService.findIssueById(issueId);
         issueService.openIssue(issueId);
-        Issue issue = issueService.findIssueById(issueId);
-        return ResponseEntity.ok(issue);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{issueId}/close")
-    public ResponseEntity<Issue> closeIssue(@PathVariable("issueId") long issueId) {
+    public ResponseEntity<Void> closeIssue(@PathVariable("issueId") long issueId) {
+        issueService.findIssueById(issueId);
         issueService.closeIssue(issueId);
-        Issue issue = issueService.findIssueById(issueId);
-        return ResponseEntity.ok(issue);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{issueId}/title")
-    public ResponseEntity<?> editIssueTitle(@PathVariable("issueId") long issueId,
+    public ResponseEntity<Void> editIssueTitle(@PathVariable("issueId") long issueId,
                                             @Valid @RequestBody IssueTitleRequest issueTitleRequest) {
         issueService.updateIssueTitle(issueId, issueTitleRequest);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{issueId}/milestone")
-    public ResponseEntity<Milestone> editIssueMilestone(@PathVariable Long issueId,
+    public ResponseEntity<MilestoneResponse> updateIssueMilestone(@PathVariable Long issueId,
                                                         @RequestBody(required = false) IssueMilestoneRequest issueMilestoneRequest) {
-        Milestone milestone = issueService.updateMilestoneIdForIssue(issueId, issueMilestoneRequest);
+        MilestoneResponse milestone = issueService.updateMilestoneIdForIssue(issueId, issueMilestoneRequest);
         return ResponseEntity.ok(milestone);
     }
 
-    @PostMapping("/{issueId}/labels/{labelId}")
-    public ResponseEntity<Void> addLabelToIssue(@PathVariable Long issueId, @PathVariable Long labelId) {
-        issueService.addLabelToIssue(issueId, labelId);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{issueId}/labels/{labelId}")
-    public ResponseEntity<Void> removeLabelFromIssue(@PathVariable Long issueId, @PathVariable Long labelId) {
-        issueService.removeLabelFromIssue(issueId, labelId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{issueId}/labels")
+    @PatchMapping("/{issueId}/labels")
     public ResponseEntity<Void> updateLabelsToIssue(@PathVariable("issueId") Long issueId,
                                                     @RequestBody IssueLabelIdsRequest labelIdsRequest) {
         issueService.updateLabels(issueId, labelIdsRequest.labels());
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{issueId}/assignees")
+    @PatchMapping("/{issueId}/assignees")
     public ResponseEntity<Void> updateAssigneesToIssue(@PathVariable("issueId") Long issueId,
                                                        @RequestBody IssueAssigneeIdsRequest assigneeIdsRequest) {
         issueService.updateAssignees(issueId, assigneeIdsRequest.assignees());
         return ResponseEntity.ok().build();
+    }
+
+    // 로드밸런서 확인용 엔드포인트
+    @GetMapping("/check")
+    public ResponseEntity<String> checkLoadBalancer() {
+        return ResponseEntity.ok("Load balancer check successful!");
     }
 }

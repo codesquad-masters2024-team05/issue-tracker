@@ -1,8 +1,9 @@
 package com.CodeSquad.IssueTracker.filter;
 
+import com.CodeSquad.IssueTracker.Exception.issue.InvalidIssueDataException;
 import com.CodeSquad.IssueTracker.filter.dto.FilterListResponse;
-import com.CodeSquad.IssueTracker.issues.Issue;
 import com.CodeSquad.IssueTracker.issues.IssueService;
+import com.CodeSquad.IssueTracker.issues.dto.IssueListResponse;
 import com.CodeSquad.IssueTracker.labels.LabelService;
 import com.CodeSquad.IssueTracker.milestone.MilestoneService;
 import com.CodeSquad.IssueTracker.user.UserService;
@@ -12,10 +13,10 @@ import java.util.List;
 @Service
 public class FilterService {
     private final CustomFilterRepository customFilterRepository;
-    IssueService issueService;
-    LabelService labelService;
-    MilestoneService milestoneService;
-    UserService userService;
+    private final IssueService issueService;
+    private final LabelService labelService;
+    private final MilestoneService milestoneService;
+    private final UserService userService;
 
     public FilterService(IssueService issueService, LabelService labelService,
                          MilestoneService milestoneService, CustomFilterRepository customFilterRepository,
@@ -36,9 +37,17 @@ public class FilterService {
                 .build();
     }
 
-    public List<Issue> findFilteredIssues(Boolean isClosed, String assignee,
-                                          List<String> labelTitles, String milestoneTitle,
-                                          String author){
-        return customFilterRepository.findFilteredIssues(isClosed, assignee, labelTitles, milestoneTitle, author);
+    public List<IssueListResponse> findFilteredIssues(String isClosed, String assignee,
+                                                      List<String> labelTitles, String milestoneTitle,
+                                                      String author, Long page, Long offset){
+        boolean closed = false;
+        if(isClosed.equals("close")){
+            closed = true;
+        }else if(isClosed.equals("open")){
+            closed = false;
+        }else{
+            throw new InvalidIssueDataException("데이터 형식에 맞지 않습니다.");
+        }
+        return customFilterRepository.findFilteredIssues(closed, assignee, labelTitles, milestoneTitle, author, page, offset);
     }
 }

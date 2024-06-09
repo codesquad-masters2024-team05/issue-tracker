@@ -1,5 +1,6 @@
 package com.CodeSquad.IssueTracker.milestone;
 
+import com.CodeSquad.IssueTracker.milestone.dto.MilestoneInIssue;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -14,6 +15,9 @@ public interface MilestoneRepository extends CrudRepository<Milestone, Long> {
 
     @Query("SELECT * FROM milestone WHERE is_closed = 0")
     List<Milestone> findAllOpenMilestones();
+
+    @Query("SELECT * FROM milestone WHERE milestone_id = :milestoneId")
+    MilestoneInIssue getMilestoneInIssueById(Long milestoneId);
 
     @Query("SELECT * FROM milestone WHERE title = :title")
     Milestone findByTitle(String title);

@@ -2,14 +2,13 @@ package com.CodeSquad.IssueTracker.Exception;
 
 import com.CodeSquad.IssueTracker.Exception.comment.AuthorNotMatchedException;
 import com.CodeSquad.IssueTracker.Exception.comment.CommentNotFoundException;
-import com.CodeSquad.IssueTracker.Exception.issue.AuthorNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class CommentExcpetionHandler {
+public class CommentExceptionHandler {
 
     @ExceptionHandler(AuthorNotMatchedException.class)
     public ResponseEntity<String> handleAuthorNotMatchedException(AuthorNotMatchedException ex) {

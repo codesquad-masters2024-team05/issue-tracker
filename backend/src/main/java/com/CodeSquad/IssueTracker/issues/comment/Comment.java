@@ -1,13 +1,13 @@
 package com.CodeSquad.IssueTracker.issues.comment;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @Builder
 @Table("comments")
 public class Comment {

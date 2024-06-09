@@ -1,4 +1,5 @@
 package com.CodeSquad.IssueTracker.issues.dto;
 
-public record IssueMilestoneRequest(Long milestoneId)
+public record IssueMilestoneRequest(
+        Long milestoneId)
 { }

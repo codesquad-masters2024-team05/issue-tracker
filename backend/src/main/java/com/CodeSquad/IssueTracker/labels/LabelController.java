@@ -3,48 +3,52 @@ package com.CodeSquad.IssueTracker.labels;
 import com.CodeSquad.IssueTracker.Exception.label.DuplicateLabelNameException;
 import com.CodeSquad.IssueTracker.Exception.label.InvalidLabelColorException;
 import com.CodeSquad.IssueTracker.Exception.label.InvalidLabelNameException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.CodeSquad.IssueTracker.labels.dto.LabelDetailResponse;
+import com.CodeSquad.IssueTracker.labels.dto.LabelRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class LabelController {
 
-    @Autowired
-    private LabelService labelService;
+    private final LabelService labelService;
+
+    public LabelController(LabelService labelService) {
+        this.labelService = labelService;
+    }
 
     @GetMapping("/labels")
-    public ResponseEntity<List<Label>> getAllLabels() {
-        List<Label> labels = labelService.getAllLabels();
+    public ResponseEntity<List<LabelDetailResponse>> getAllLabels() {
+        List<LabelDetailResponse> labels = labelService.getAllLabelDetails();
         return ResponseEntity.ok(labels);
     }
 
     @PostMapping("/label")
-    public ResponseEntity<Label> createLabel(@RequestBody Label label) {
+    public ResponseEntity<Void> createLabel(@RequestBody LabelRequest labelRequest) {
         try {
-            Label createdLabel = labelService.createLabel(label);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdLabel);
+            labelService.createLabel(labelRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (InvalidLabelNameException | InvalidLabelColorException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (DuplicateLabelNameException ex) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
     @GetMapping("/label/{id}")
-    public ResponseEntity<Label> getLabelById(@PathVariable Long id) {
-        Optional<Label> label = labelService.getLabelById(id);
-        return label.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<LabelDetailResponse> getLabelById(@PathVariable Long id) {
+        Label label = labelService.getLabelById(id);
+        LabelDetailResponse labelDetailResponse = labelService.getLabelDetail(label);
+        return ResponseEntity.ok(labelDetailResponse);
     }
 
     @PutMapping("/label/{id}")
-    public ResponseEntity<Label> updateLabel(@PathVariable Long id, @RequestBody Label updatedLabel) {
-        Label updatedLabelResponse = labelService.updateLabel(id, updatedLabel);
-        return updatedLabelResponse != null ? ResponseEntity.ok(updatedLabelResponse) : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> updateLabel(@PathVariable Long id, @RequestBody LabelRequest updatedLabel) {
+        labelService.updateLabel(id, updatedLabel);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/label/{id}")
@@ -52,5 +56,4 @@ public class LabelController {
         labelService.deleteLabel(id);
         return ResponseEntity.noContent().build();
     }
-
 }

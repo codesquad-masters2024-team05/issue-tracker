@@ -1,6 +1,5 @@
 package com.CodeSquad.IssueTracker.issues.comment;
 
-
 import com.CodeSquad.IssueTracker.Exception.comment.AuthorNotMatchedException;
 import com.CodeSquad.IssueTracker.Exception.comment.CommentNotFoundException;
 import com.CodeSquad.IssueTracker.issues.IssueService;
@@ -22,7 +21,6 @@ public class CommentService {
         this.userService = userService;
         this.issueService = issueService;
     }
-
 
     public void addComment(CommentCreateRequest request, Long issueId) {
         issueService.validateExistIssue(issueId);

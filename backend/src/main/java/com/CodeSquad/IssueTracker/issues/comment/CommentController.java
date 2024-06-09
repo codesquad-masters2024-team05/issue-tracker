@@ -1,6 +1,5 @@
 package com.CodeSquad.IssueTracker.issues.comment;
 
-
 import com.CodeSquad.IssueTracker.issues.comment.dto.CommentCreateRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

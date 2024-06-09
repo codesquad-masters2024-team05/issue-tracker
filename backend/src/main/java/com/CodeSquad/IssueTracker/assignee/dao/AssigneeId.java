@@ -1,7 +1,6 @@
-package com.CodeSquad.IssueTracker.assignee.dto;
+package com.CodeSquad.IssueTracker.assignee.dao;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.relational.core.mapping.Table;
 

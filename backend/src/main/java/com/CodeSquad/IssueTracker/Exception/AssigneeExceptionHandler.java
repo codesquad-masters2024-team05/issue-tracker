@@ -1,6 +1,6 @@
 package com.CodeSquad.IssueTracker.Exception;
 
-import com.CodeSquad.IssueTracker.Exception.assignee.AssigneeAlredyExistException;
+import com.CodeSquad.IssueTracker.Exception.assignee.AssigneeAlreadyExistException;
 import com.CodeSquad.IssueTracker.Exception.assignee.AssigneeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class AssigneeExceptionHandler {
 
-    @ExceptionHandler(AssigneeAlredyExistException.class)
-    public ResponseEntity<String> handleAssigneeAlredyExistException(AssigneeAlredyExistException ex) {
+    @ExceptionHandler(AssigneeAlreadyExistException.class)
+    public ResponseEntity<String> handleAssigneeAlredyExistException(AssigneeAlreadyExistException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 

@@ -1,6 +1,6 @@
 package com.CodeSquad.IssueTracker.issues;
 
-import com.CodeSquad.IssueTracker.assignee.dto.AssigneeId;
+import com.CodeSquad.IssueTracker.assignee.dao.AssigneeId;
 import com.CodeSquad.IssueTracker.issues.issueLabel.dto.LabelId;
 import lombok.*;
 import org.springframework.data.annotation.Id;

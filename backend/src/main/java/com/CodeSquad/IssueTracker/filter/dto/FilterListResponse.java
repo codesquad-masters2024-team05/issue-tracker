@@ -1,6 +1,5 @@
 package com.CodeSquad.IssueTracker.filter.dto;
 
-import com.CodeSquad.IssueTracker.issues.dto.AuthorListResponse;
 import com.CodeSquad.IssueTracker.issues.dto.IssueNumberResponse;
 import com.CodeSquad.IssueTracker.labels.dto.LabelListResponse;
 import com.CodeSquad.IssueTracker.milestone.dto.MilestoneListResponse;
