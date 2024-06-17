@@ -1,0 +1,27 @@
+github:
+  client:
+    id: Ov23liO8Ca6R78HtYa0U
+    secret: 37fd4d8254de51ea8eb7e8a09059c8f143794460
+
+server:
+  servlet:
+    session:
+      timeout: 32400 # 9 hours (in seconds)
+  session:
+    cookie:
+      same-site: none
+      http-only: true
+      secure: true
+
+jwt:
+  secret-key: NZfLZ8BH1LqDVTzMoRN8Kd6uGv5FSu4oBjc5VeT7VtMKHgr/NeETzwxL0awVkgJWejbL6j1RxYLcFVPklnQBmA==
+  expiration-time: 86400000 # 1 day (in milliseconds)
+
+spring:
+  application:
+    name: IssueTracker
+  datasource:
+    url: jdbc:mysql://43.201.146.62/issue_tracker?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
