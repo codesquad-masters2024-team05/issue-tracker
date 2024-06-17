@@ -1,0 +1,13 @@
+github:
+  client:
+    id: Ov23liO8Ca6R78HtYa0U
+    secret: a0e1a8a5c0c6cfcac1315f0e113340c32d0bbb32
+
+server:
+  servlet:
+    session:
+      timeout: 32400 # 9시간 (초 단위)
+
+jwt:
+  secret-key: NZfLZ8BH1LqDVTzMoRN8Kd6uGv5FSu4oBjc5VeT7VtMKHgr/NeETzwxL0awVkgJWejbL6j1RxYLcFVPklnQBmA==
+  expiration-time: 86400000 # 1 day (milliseconds)
